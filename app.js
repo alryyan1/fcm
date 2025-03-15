@@ -4,7 +4,7 @@ const express = require('express')
 const cors = require('cors')
 
 const app = express();
-const port = 3000;
+const port = 8000;
 app.use(cors())
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -26,16 +26,25 @@ console.log("Firebase Admin SDK initialized successfully!");
 
     app.post('/msg', (req, res) => {
     const payload =  req.body;
+    console.log(payload,'payload')
     const message = {
         notification: {
+          
           title: 'اذن الصرف',
           body: `${payload.description}  (${payload.amount})`,
         },
-        token: "dvel-fgVRFKPQ0dRea-BGs:APA91bGjevTiuypqIX9sHGNSCFKjTB60kgE1aAKNRUZzJ6UJLXvVIxxsrhcGa3V4xfvUbCHX1X0GBTeXBhC_Kx8BnllCG5-kxbq-gmp_F2TYgDS7KubMOsg"
-    , // or use 'topic' for topic messages
+        data:{
+          id:payload.id.toString(),
+        },
+        topic: "news", // Replace token with topic
+
+        
+    // or use 'topic' for topic messages
       };
         console.log(req.body,'payload')
+        
         admin.messaging().send(message)
+
         .then((response) => {
           console.log('Successfully sent message:', response);
         })
