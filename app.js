@@ -30,8 +30,8 @@ console.log("Firebase Admin SDK initialized successfully!");
     const message = {
         notification: {
           
-          title: 'اذن الصرف',
-          body: `${payload.description}  (${payload.amount})`,
+          title: payload.title,
+          body: `${payload.description}`,
         },
         data:{
           id:payload.id.toString(),
@@ -47,6 +47,7 @@ console.log("Firebase Admin SDK initialized successfully!");
 
         .then((response) => {
           console.log('Successfully sent message:', response);
+          res.status(200).json({message:'Notification sent successfully'})
         })
         .catch((error) => {
           console.error('Error sending message:', error);
